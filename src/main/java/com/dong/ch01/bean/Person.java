@@ -1,10 +1,15 @@
-package com.dong.ch01;
+package com.dong.ch01.bean;
 
 public class Person {
     private String name;
     private int age;
 
     public Person() {
+    }
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
     }
 
     public String getName() {
