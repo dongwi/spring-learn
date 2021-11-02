@@ -6,10 +6,11 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class Test01 {
     @Test
     public void test() {
-        ClassPathXmlApplicationContext classPathXmlApplicationContext = new ClassPathXmlApplicationContext("beans.xml");
-        String[] beanDefinitionNames = classPathXmlApplicationContext.getBeanDefinitionNames();
+        ClassPathXmlApplicationContext cs = new ClassPathXmlApplicationContext("beans.xml");
+        String[] beanDefinitionNames = cs.getBeanDefinitionNames();
+
         for (String beanDefinitionName : beanDefinitionNames) {
-            System.out.println(beanDefinitionName);
+            System.out.println("Bean name: "+ beanDefinitionName + ", bean info: " + cs.getBean(beanDefinitionName));
         }
     }
 }
