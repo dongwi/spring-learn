@@ -14,4 +14,9 @@ public class MainConfig06 {
     public Person person() {
         return new Person("dongwei", 18);
     }
+
+    @Bean
+    public CustomFactoryBean customFactoryBean() {
+        return new CustomFactoryBean();
+    }
 }
