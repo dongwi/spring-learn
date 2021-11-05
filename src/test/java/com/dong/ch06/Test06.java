@@ -12,5 +12,13 @@ public class Test06 {
         for (String beanDefinitionName : beanDefinitionNames) {
             System.out.println(beanDefinitionName);
         }
+
+        // get factory associated object from ac
+        Object bean =  ac.getBean("customFactoryBean");
+        System.out.println(bean.getClass());
+
+        // get customFactoryBean from ac
+        Object factoryBean = ac.getBean("&customFactoryBean");
+        System.out.println(factoryBean.getClass());
     }
 }

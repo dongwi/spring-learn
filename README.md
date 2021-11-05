@@ -19,9 +19,16 @@ Through Condition to control bean create or not.
 annotation way to create bean:
 1. @Bean annotation, normal to import 3th package or component
 2. @ComponentScan annotation, normal the class developed by us
-3. @Import annotation, thing has more function than @bean
+3. @Import annotation, thing has more function than @bean, which used to import 3th package or component
    1. set value option to specify the class, and we get the full classname as bean name.
    2. Implement ImportSelector, override the method and return the full classname
    3. Implement ImportBeanDefinitionRegistrar
 4. Implement FactoryBean
 
+
+## ch07
+manager lifecycle of bean.
+1. bean properties
+2. implements InitializingBean, DisposableBean
+3. use jsr250 annotation
+4. implement BeanPostProcessor, and override postProcessBeforeInitialization and postProcessAfterInitialization.
