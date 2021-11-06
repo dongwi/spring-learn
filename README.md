@@ -32,3 +32,23 @@ manager lifecycle of bean.
 2. implements InitializingBean, DisposableBean
 3. use jsr250 annotation
 4. implement BeanPostProcessor, and override postProcessBeforeInitialization and postProcessAfterInitialization.
+
+
+## ch08
+Value annotation. support fellow type:
+1. basic java type
+2. spring el
+3. environment
+4. read environment from resources file, use PropertySource annotation on configuration class.
+
+## ch09
+The sequence of autowired annotation.
+1. use field name to get bean in application context.
+2. use type to get bean in application context.
+
+if you want to choose the bean in application context, 
+1. use qualifier annotation to specify the which bean name you want to choose.
+2. use Primary annotation to specify which bean as the first one to choose when you use type method.
+3. 
+
+
