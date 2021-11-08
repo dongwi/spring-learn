@@ -1,5 +1,6 @@
 package com.dong.ch10.aop;
 
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
@@ -15,7 +16,8 @@ public class LogAspect {
     public void pointCut(){}
 
     @Before("pointCut()")
-    public void doBefore() {
+    public void doBefore(JoinPoint jp) {
+        Object[] args = jp.getArgs();
         System.out.println("before roast...");
     }
 
