@@ -13,7 +13,7 @@ use ComponentScan Annotation to choose which class will be created. import list
 3. CustomTypeFilter must implements TypeFilter and override match function
 
 ## ch05
-Through Condition to control bean create or not.
+Through Condition to control bean create or note.
 
 ## ch06
 annotation way to create bean:

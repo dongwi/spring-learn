@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-    <bean id="person" class="com.dong.ch01.bean.Person">
+    <bean id="person" class="com.dong.spring.ch01.bean.Person">
         <property name="name" value="dongwei"/>
         <property name="age" value="20"/>
     </bean>
