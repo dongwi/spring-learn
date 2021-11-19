@@ -1,4 +1,4 @@
-package com.dong.spring.config;
+package com.dong.spring.ch11.config;
 
 import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.ConditionContext;

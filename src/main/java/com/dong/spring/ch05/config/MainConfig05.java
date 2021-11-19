@@ -1,6 +1,7 @@
-package com.dong.spring.config;
+package com.dong.spring.ch05.config;
 
 import com.dong.spring.ch01.bean.Person;
+import com.dong.spring.ch11.config.CustomCondition;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;

@@ -1,6 +1,6 @@
 package com.dong.mybatis.ch01;
 
-import mybatis.ch01.TUser;
+import com.dong.ch01.TUser;
 import org.junit.Test;
 
 import java.sql.*;
