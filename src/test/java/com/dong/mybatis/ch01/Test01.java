@@ -1,18 +1,26 @@
 package com.dong.mybatis.ch01;
 
-import com.dong.ch01.TUser;
+import com.dong.mybatis.ch01.entity.TUser;
+import com.dong.mybatis.ch01.mapper.TUserMapper;
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.Test;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Test01 {
     static final String JDBC_DRIVER="com.mysql.cj.jdbc.Driver";
-    static final String DB_URL = "jdbc:mysql://192.168.176.143:3306/test?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true";
+//    static final String DB_URL = "jdbc:mysql://192.168.176.143:3306/test?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true";
+    static final String DB_URL = "jdbc:mysql://192.168.78.129:3306/springdb?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true";
 
     static final String USER="root";
-    static final String PASSWORD = "root";
+    static final String PASSWORD = "123456";
 
     @Test
     public void query() {
@@ -119,5 +127,21 @@ public class Test01 {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    }
+
+    @Test
+    public void quickStartMybatis() {
+        SqlSessionFactory sqlSessionFactory;
+        try (InputStream inputStream = Resources.getResourceAsStream("mybatis-config.xml")) {
+            sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        TUserMapper mapper = sqlSession.getMapper(TUserMapper.class);
+        TUser tUser = mapper.selectUserByPrimaryKey(1);
+        System.out.println(tUser);
     }
 }

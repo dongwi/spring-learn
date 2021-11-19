@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dong.mybatis.ch01.mapper.TUserMapper">
+    <select id="selectUserByPrimaryKey" resultType="com.dong.mybatis.ch01.entity.TUser" parameterType="java.lang.Integer">
+        select
+            id,
+            user_name userName,
+            real_name realName,
+            mobile
+        from t_user
+        where id=#{id,jdbcType=INTEGER}
+    </select>
+</mapper>

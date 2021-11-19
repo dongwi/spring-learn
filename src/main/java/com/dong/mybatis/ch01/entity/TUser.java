@@ -1,4 +1,4 @@
-package com.dong.mybatis.ch01;
+package com.dong.mybatis.ch01.entity;
 
 public class TUser {
     private Integer id;

@@ -1,5 +1,6 @@
 package com.dong.spring.ch05;
 
+import com.dong.spring.ch05.config.MainConfig05;
 import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
