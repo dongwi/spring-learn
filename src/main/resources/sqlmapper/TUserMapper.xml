@@ -3,13 +3,72 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dong.mybatis.ch01.mapper.TUserMapper">
-    <select id="selectUserByPrimaryKey" resultType="TUser" parameterType="java.lang.Integer">
+<!--
+    id 当前命名空间中的唯一标识，用于标识一个resultMap
+    type 类的完全限定名或别名
+    autoMapping 自动映射
+        constructor 用于在实例化类时，注入结果到构造方法中
+            idArg Id 参数，标记出作为ID的结果可以帮助提供整体性能
+            arg  将被注入到构造方法中的一个普通结果
+        id  一个ID结果，标记出作为ID的结果可以帮助提高整体性能
+        result 注入到字段或javaBean的属性的普通结果
+            property pojo中映射到列结果的字段或属性
+            column SQL中的列名，或列的别名
+            javaType 配置的java的类
+            jdbcType 数据中的类型
+            typeHandler javaType 与 jdbcType之间的转换处理器
+        association  一个复杂类型的关联，许多结果将包装成这种哦类型
+        collection   一个复杂类型的集合
+        discriminator  使用结果只来决定使用那个resultMap
+            case 基于某些值的结果映射
+-->
+    <resultMap id="BaseResultMap" type="TUser">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="user_name" property="userName" jdbcType="VARCHAR"/>
+        <result column="real_name" property="realName" jdbcType="VARCHAR"/>
+        <result column="mobile" property="mobile" jdbcType="VARCHAR"/>
+        <result column="note" property="note" jdbcType="VARCHAR"/>
+    </resultMap>
+    
+    <sql id="BaseColumnList">
+        id, user_name, real_name, mobile, note
+    </sql>
+<!--
+    映射查询语句
+    id 与mapper的命名空间组合起来是唯一的，提供给mybatis调用
+    parameterType 传入参数类型，可以给出全类名，使用别名必须是mybatis内部定义或者自定义的
+    resultType 语句返回的期望类的完整限定名或别名
+    resultMap 外部resultMap的命名引用。使用resultMap或者resultType，两者不能同时使用
+
+    flushCache 在调用SQL后，是否要求mybatis清空之前查询的本地缓存或者二级缓存
+    useCache 启动二级缓存开关，是否要求mybatis将此次结果缓存
+    timeout 设置超时时间
+    fetchSize 设置记录的总条数
+-->
+    <select id="selectUserByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
-            id,
-            user_name,
-            real_name,
-            mobile
+            <include refid="BaseColumnList"/>
         from t_user
         where id=#{id,jdbcType=INTEGER}
     </select>
+
+<!--
+    id id 与mapper的命名空间组合起来是唯一的，提供给mybatis调用，与接口名保持一致
+    paramType 参数的全类限定名
+    useGeneratedKeys 导致mybatis使用jdbc的getGeneratedKeys方法来取出由数据库内部生成的主键
+    keyProperty 唯一标记一个属性，mybatis会通过getGeneratedKeys的返回值或者通过insert语句的selectKey
+    子元素设置它的键值，如果希望得到多个生成的列，也可以通过都好分割的属性名称列表
+    keyColumn 通过生成的键值设置表中的列名，在某些数据库中是必须的，当主键列不是表中的第一列的时候需要设置
+    statementType，STATEMENT，PREPARED或CALLABLE中的一个，默认是PREPARED
+    databaseId  如果配置了databaseIdProvider，mybatis会加载所有的不带databaseId或者匹配当前databaseId的语句
+-->
+    <insert id="insert" parameterType="TUser" useGeneratedKeys="true" keyProperty="id">
+        insert into t_user (<include refid="BaseColumnList"/>) values (
+                                      #{id,jdbcType=INTEGER},
+                                      #{userName,jdbcType=VARCHAR},
+                                      #{realName,jdbcType=VARCHAR},
+                                      #{mobile,jdbcType=VARCHAR},
+                                      #{note,jdbcType=VARCHAR}
+        )
+    </insert>
 </mapper>

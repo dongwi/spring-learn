@@ -6,6 +6,7 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -21,6 +22,17 @@ public class Test01 {
 
     static final String USER="root";
     static final String PASSWORD = "123456";
+
+    private SqlSessionFactory sqlSessionFactory;
+
+    @Before
+    public void before() {
+        try (InputStream inputStream = Resources.getResourceAsStream("mybatis-config.xml")) {
+            sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Test
     public void query() {
@@ -131,17 +143,23 @@ public class Test01 {
 
     @Test
     public void quickStartMybatis() {
-        SqlSessionFactory sqlSessionFactory;
-        try (InputStream inputStream = Resources.getResourceAsStream("mybatis-config.xml")) {
-            sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return;
-        }
-
         SqlSession sqlSession = sqlSessionFactory.openSession();
         TUserMapper mapper = sqlSession.getMapper(TUserMapper.class);
         TUser tUser = mapper.selectUserByPrimaryKey(1);
         System.out.println(tUser);
+    }
+
+    @Test
+    public void tesInsert() {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        TUserMapper mapper = sqlSession.getMapper(TUserMapper.class);
+        TUser tUser = new TUser();
+        tUser.setUserName("wei");
+        tUser.setRealName("wei");
+        tUser.setMobile("123456789");
+        tUser.setNote("");
+        mapper.insert(tUser);
+        sqlSession.commit();
+        System.out.println(tUser.getId());
     }
 }
