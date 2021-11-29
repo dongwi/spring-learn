@@ -1,8 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.dong.mybatis.ch01.mapper.TUserMapper">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dong.mybatis.ch02.mapper.TUserMapper">
 <!--
     id 当前命名空间中的唯一标识，用于标识一个resultMap
     type 类的完全限定名或别名
@@ -23,11 +21,11 @@
             case 基于某些值的结果映射
 -->
     <resultMap id="BaseResultMap" type="TUser">
-        <id column="id" property="id" jdbcType="INTEGER"/>
-        <result column="user_name" property="userName" jdbcType="VARCHAR"/>
-        <result column="real_name" property="realName" jdbcType="VARCHAR"/>
-        <result column="mobile" property="mobile" jdbcType="VARCHAR"/>
-        <result column="note" property="note" jdbcType="VARCHAR"/>
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="user_name" jdbcType="VARCHAR" property="userName" />
+        <result column="real_name" jdbcType="VARCHAR" property="realName" />
+        <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+        <result column="note" jdbcType="VARCHAR" property="note" />
     </resultMap>
     
     <sql id="BaseColumnList">
@@ -45,11 +43,48 @@
     timeout 设置超时时间
     fetchSize 设置记录的总条数
 -->
-    <select id="selectUserByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    <select id="selectUserByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
-            <include refid="BaseColumnList"/>
+            <include refid="BaseColumnList" />
         from t_user
         where id=#{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectIfOper" resultMap="BaseResultMap">
+        select
+            <include refid="BaseColumnList" />
+        from t_user a
+        where
+        <if test="user_name != null and user_name != ''">
+            a.user_name like CONCAT('%', #{user_name}, '%') and
+        </if>
+        <if test="note != null">
+              a.note = #{note}
+        </if>
+    </select>
+
+    <select id="selectIfAndWhereOper" resultMap="BaseResultMap">
+        select
+        <include refid="BaseColumnList" />
+        from t_user a
+        <where>
+            <if test="user_name != null and user_name != ''">
+               and a.user_name like CONCAT('%', #{user_name}, '%')
+            </if>
+            <if test="note != null">
+                and a.note = #{note}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectForeach" resultMap="BaseResultMap">
+        select
+            <include refid="BaseColumnList" />
+        from t_user a
+        where a.user_name in
+        <foreach close=")" collection="array" index="i" item="userName" open="(" separator=",">
+            #{userName}
+        </foreach>
     </select>
 
 <!--
@@ -62,13 +97,26 @@
     statementType，STATEMENT，PREPARED或CALLABLE中的一个，默认是PREPARED
     databaseId  如果配置了databaseIdProvider，mybatis会加载所有的不带databaseId或者匹配当前databaseId的语句
 -->
-    <insert id="insert" parameterType="TUser" useGeneratedKeys="true" keyProperty="id">
-        insert into t_user (<include refid="BaseColumnList"/>) values (
+    <insert id="insert" keyProperty="id" parameterType="TUser" useGeneratedKeys="true">
+        insert into t_user (<include refid="BaseColumnList" />) values (
                                       #{id,jdbcType=INTEGER},
                                       #{userName,jdbcType=VARCHAR},
                                       #{realName,jdbcType=VARCHAR},
                                       #{mobile,jdbcType=VARCHAR},
                                       #{note,jdbcType=VARCHAR}
         )
+    </insert>
+
+    <insert id="insertForeach">
+        insert into t_user (user_name, real_name, mobile, note)
+        values
+        <foreach collection="list" item="user" separator=",">
+            (
+             #{user.userName, jdbcType=VARCHAR},
+             #{user.realName, jdbcType=VARCHAR},
+             #{user.mobile, jdbcType=VARCHAR},
+             #{user.note, jdbcType=VARCHAR}
+            )
+        </foreach>
     </insert>
 </mapper>

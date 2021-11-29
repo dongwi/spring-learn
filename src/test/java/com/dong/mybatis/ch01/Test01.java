@@ -162,4 +162,51 @@ public class Test01 {
         sqlSession.commit();
         System.out.println(tUser.getId());
     }
+
+    @Test
+    public void testSelectIfOper() {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        TUserMapper mapper = sqlSession.getMapper(TUserMapper.class);
+        List<TUser> results = mapper.selectIfOper("wei", "");
+        System.out.println(results);
+    }
+
+    @Test
+    public void testSelectIfAndWhereOper() {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        TUserMapper mapper = sqlSession.getMapper(TUserMapper.class);
+        List<TUser> results = mapper.selectIfAndWhereOper("dong", null);
+        System.out.println(results);
+    }
+
+    @Test
+    public void testSelectForeach() {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        TUserMapper mapper = sqlSession.getMapper(TUserMapper.class);
+        List<TUser> results = mapper.selectForeach(new String[] {"dong", "wei"});
+        System.out.println(results);
+    }
+
+    @Test
+    public void insertForeach() {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        TUserMapper mapper = sqlSession.getMapper(TUserMapper.class);
+        List<TUser> tUsers = new ArrayList<>();
+        TUser tUser = new TUser();
+        tUser.setUserName("zhang");
+        tUser.setRealName("zhang");
+        tUser.setMobile("123456987");
+        tUsers.add(tUser);
+        tUser = new TUser();
+        tUser.setUserName("zheng");
+        tUser.setRealName("zheng");
+        tUser.setMobile("123456987");
+        tUser.setNote("zhengchenggong");
+        tUsers.add(tUser);
+        mapper.insertForeach(tUsers);
+
+        // commit change
+        sqlSession.commit();
+    }
+
 }
